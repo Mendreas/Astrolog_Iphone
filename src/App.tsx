@@ -623,7 +623,7 @@ const AstroObservationApp = () => {
   const parseEvents = useCallback(async (currentTime: Date) => {
     // Fetch both files
     const [astroEventsText, eventsListText] = await Promise.all([
-      fetch('/AstroLogs/AstroEvents.txt').then(r => r.text()),
+      fetch(`${process.env.PUBLIC_URL}/AstroEvents.txt`).then(r => r.text()),
       fetch(`${process.env.PUBLIC_URL}/events-list.txt`).then(r => r.text())
     ]);
 
