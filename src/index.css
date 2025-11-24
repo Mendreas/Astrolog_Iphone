@@ -207,7 +207,8 @@ body .fixed-translate-widget,
 
 /* Light theme variants (more airy glass) */
 .theme-light {
-  background-color: #f9fafb !important; /* page background (gray-50) */
+  /* ~5% lighter than previous (#f9fafb) to approach white subtly */
+  background-color: #fdfefe !important;
 }
 .theme-light.ios-device .bg-gray-800 {
   background-color: rgba(255,255,255,0.65) !important;
