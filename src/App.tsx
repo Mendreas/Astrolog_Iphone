@@ -742,6 +742,7 @@ const AstroObservationApp = () => {
     const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream;
     if (isIOS) {
       document.body.classList.add('ios-device');
+      document.body.classList.add('ios-root');
     }
   }, []);
 
@@ -858,41 +859,35 @@ const AstroObservationApp = () => {
               </div>
             </div>
           </header>
-          <nav className={`border-t border-gray-700 ${redFilter ? '' : ''}`} style={{ paddingLeft: '10px', paddingRight: '10px' }}>
-            <div className="flex space-x-8">
-              {(isIphone
-                ? [
-                    { id: 'home', label: 'Home', icon: '🏠' },
-                    { id: 'objects', label: 'Observations', icon: '🌟' },
-                    { id: 'resources', label: 'Resource', icon: '📚' },
-                    { id: 'calendar', label: 'Calendar', icon: '📅' },
-                    { id: 'settings', label: 'Settings', icon: '⚙️' }
-                  ]
-                : [
-                    { id: 'home', label: 'Home', icon: '🏠' },
-                    { id: 'objects', label: 'Objects', icon: '🌟' },
-                    { id: 'resources', label: 'Resources', icon: '📚' },
-                    { id: 'links', label: 'Useful Links', icon: '🔗' },
-                    { id: 'calendar', label: 'Calendar', icon: '📅' },
-                    { id: 'solar', label: 'Solar System', icon: '🪐' },
-                    { id: 'settings', label: 'Settings', icon: '⚙️' }
-                  ]).map(tab => (
-                <button
-                  key={tab.id}
-                  onClick={() => setActiveTab(tab.id)}
-                  className={`py-4 px-2 border-b-2 font-medium text-sm ${
-                    activeTab === tab.id
-                      ? 'border-blue-500 text-blue-400'
-                      : 'border-transparent text-gray-300 hover:text-gray-200'
-                  }`}
-                >
-                  <span className="mr-2">{tab.icon}</span>
-                  {!isIphone && tab.label}
-                </button>
-              ))}
-            </div>
-          </nav>
-          <main className="w-full px-4 py-6" style={{ maxWidth: 1600, margin: '0 auto' }}>
+          {!isIphone && (
+            <nav className={`border-t border-gray-700 ${redFilter ? '' : ''}`} style={{ paddingLeft: '10px', paddingRight: '10px' }}>
+              <div className="flex space-x-8">
+                {[
+                  { id: 'home', label: 'Home', icon: '🏠' },
+                  { id: 'objects', label: 'Objects', icon: '🌟' },
+                  { id: 'resources', label: 'Resources', icon: '📚' },
+                  { id: 'links', label: 'Useful Links', icon: '🔗' },
+                  { id: 'calendar', label: 'Calendar', icon: '📅' },
+                  { id: 'solar', label: 'Solar System', icon: '🪐' },
+                  { id: 'settings', label: 'Settings', icon: '⚙️' }
+                ].map(tab => (
+                  <button
+                    key={tab.id}
+                    onClick={() => setActiveTab(tab.id)}
+                    className={`py-4 px-2 border-b-2 font-medium text-sm ${
+                      activeTab === tab.id
+                        ? 'border-blue-500 text-blue-400'
+                        : 'border-transparent text-gray-300 hover:text-gray-200'
+                    }`}
+                  >
+                    <span className="mr-2">{tab.icon}</span>
+                    {tab.label}
+                  </button>
+                ))}
+              </div>
+            </nav>
+          )}
+          <main className={`w-full px-4 py-6${isIphone ? ' page-with-tabbar' : ''}`} style={{ maxWidth: 1600, margin: '0 auto' }}>
             {/* Home Tab */}
             {activeTab === 'home' && (
               <div className="space-y-6">
@@ -1635,6 +1630,27 @@ const AstroObservationApp = () => {
             )}
           </main>
         </div>
+        {/* Bottom Tab Bar for iPhone */}
+        {isIphone && (
+          <div className="ios-tabbar">
+            {[
+              { id: 'home', label: 'Home', icon: '🏠' },
+              { id: 'objects', label: 'Observations', icon: '🌟' },
+              { id: 'resources', label: 'Resource', icon: '📚' },
+              { id: 'calendar', label: 'Calendar', icon: '📅' },
+              { id: 'settings', label: 'Settings', icon: '⚙️' }
+            ].map(tab => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                className={activeTab === tab.id ? 'active' : ''}
+              >
+                <span style={{ fontSize: 18, lineHeight: 1 }}>{tab.icon}</span>
+                <span>{tab.label}</span>
+              </button>
+            ))}
+          </div>
+        )}
 
         {/* Add Observation Modal */}
         {showAddForm && (

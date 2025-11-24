@@ -182,3 +182,62 @@ body .fixed-translate-widget,
   max-width: none !important;
   pointer-events: auto !important;
 }
+
+/* ---- iOS "Liquid Glass" inspired styling ---- */
+/* System font stack for Apple-like typography */
+.ios-device body, .ios-device, .ios-root {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Glass background overrides on iPhone */
+.ios-device .bg-gray-800 {
+  background-color: rgba(20, 20, 22, 0.55) !important;
+  backdrop-filter: saturate(180%) blur(16px);
+  -webkit-backdrop-filter: saturate(180%) blur(16px);
+  border: 1px solid rgba(255,255,255,0.08);
+}
+.ios-device .bg-gray-700 {
+  background-color: rgba(30, 30, 34, 0.55) !important;
+  backdrop-filter: saturate(180%) blur(14px);
+  -webkit-backdrop-filter: saturate(180%) blur(14px);
+  border: 1px solid rgba(255,255,255,0.06);
+}
+
+/* Bottom tab bar respecting safe-area */
+.ios-tabbar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 6px 10px calc(6px + env(safe-area-inset-bottom));
+  height: 64px;
+  background: rgba(20, 20, 22, 0.6);
+  backdrop-filter: saturate(180%) blur(16px);
+  -webkit-backdrop-filter: saturate(180%) blur(16px);
+  border-top: 1px solid rgba(255,255,255,0.12);
+  z-index: 10020;
+}
+.ios-tabbar button {
+  color: #d1d5db;
+  font-size: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 6px 10px;
+  border-radius: 10px;
+}
+.ios-tabbar button.active {
+  color: #60a5fa;
+  background: rgba(96,165,250,0.15);
+}
+
+/* Page padding to avoid tabbar overlay */
+.page-with-tabbar {
+  padding-bottom: calc(80px + env(safe-area-inset-bottom));
+}
