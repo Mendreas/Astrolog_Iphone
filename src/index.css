@@ -205,6 +205,22 @@ body .fixed-translate-widget,
   border: 1px solid rgba(255,255,255,0.06);
 }
 
+/* Light theme variants (more airy glass) */
+.theme-light.ios-device .bg-gray-800 {
+  background-color: rgba(255,255,255,0.65) !important;
+  color: #111827 !important; /* gray-900 */
+  border: 1px solid rgba(0,0,0,0.08);
+  backdrop-filter: saturate(180%) blur(16px);
+  -webkit-backdrop-filter: saturate(180%) blur(16px);
+}
+.theme-light.ios-device .bg-gray-700 {
+  background-color: rgba(255,255,255,0.55) !important;
+  color: #111827 !important;
+  border: 1px solid rgba(0,0,0,0.06);
+  backdrop-filter: saturate(180%) blur(14px);
+  -webkit-backdrop-filter: saturate(180%) blur(14px);
+}
+
 /* Bottom tab bar respecting safe-area */
 .ios-tabbar {
   position: fixed;
@@ -235,6 +251,19 @@ body .fixed-translate-widget,
 .ios-tabbar button.active {
   color: #60a5fa;
   background: rgba(96,165,250,0.15);
+}
+
+/* Light theme tab bar */
+.theme-light .ios-tabbar {
+  background: rgba(255,255,255,0.75);
+  border-top: 1px solid rgba(0,0,0,0.12);
+}
+.theme-light .ios-tabbar button {
+  color: #374151; /* gray-700 */
+}
+.theme-light .ios-tabbar button.active {
+  color: #2563eb; /* blue-600 */
+  background: rgba(37,99,235,0.12);
 }
 
 /* Page padding to avoid tabbar overlay */

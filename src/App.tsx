@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Calendar, MapPin, Search, Plus, Star, Filter, Settings, Download, Upload, Save, X, Eye, Moon, Sun, Edit } from 'lucide-react';
+import { Calendar, MapPin, Search, Plus, Star, Filter, Settings, Download, Upload, Save, X, Eye, Moon, Sun, Edit, Home, BookOpen } from 'lucide-react';
 import { Body, Observer, Equator, Horizon, MoonPhase } from "astronomy-engine";
 import EventList from "./components/EventList";
 import { EventType } from "./components/EventCard";
@@ -95,6 +95,10 @@ const uploadToImgur = async (file: File) => {
 
 const AstroObservationApp = () => {
   const [activeTab, setActiveTab] = useState('home');
+  const [theme, setTheme] = useState<'light' | 'dark'>(() => {
+    const saved = typeof window !== 'undefined' ? localStorage.getItem('theme') : null;
+    return (saved === 'light' || saved === 'dark') ? saved : 'dark';
+  });
   const [observations, setObservations] = useState<Observation[]>([]);
   const [showAddForm, setShowAddForm] = useState(false);
   const [editObservationId, setEditObservationId] = useState<number | null>(null);
@@ -743,8 +747,15 @@ const AstroObservationApp = () => {
     if (isIOS) {
       document.body.classList.add('ios-device');
       document.body.classList.add('ios-root');
+      // default to light on first visit if no saved theme
+      const saved = localStorage.getItem('theme');
+      if (!saved) setTheme('light');
     }
   }, []);
+
+  useEffect(() => {
+    localStorage.setItem('theme', theme);
+  }, [theme]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -806,7 +817,7 @@ const AstroObservationApp = () => {
       {redFilter && (
         <div className="red-filter-overlay" />
       )}
-      <div className={`min-h-screen${redFilter ? ' red-filter-text bg-[#1a0000]' : ' text-white bg-gray-900'}`}>
+      <div className={`min-h-screen${redFilter ? ' red-filter-text bg-[#1a0000]' : theme === 'light' ? ' theme-light text-gray-900 bg-gray-50' : ' text-white bg-gray-900'}`}>
         {/* Header + Navigation container */}
         <div className={`w-full mx-auto rounded-b-2xl shadow-lg ${redFilter ? 'red-filter-header' : 'bg-gray-800'}`} style={{ maxWidth: 1600 }}>
           <header className={`p-4 shadow-none ${redFilter ? '' : ''}`} style={{ paddingLeft: '10px', paddingRight: '10px', borderBottom: 'none' }}>
@@ -1601,6 +1612,24 @@ const AstroObservationApp = () => {
               <div className="space-y-6">
                 <h2 className="text-2xl font-bold">Settings & Configuration</h2>
                 <div className="bg-gray-800 rounded-lg p-6">
+                  <h3 className="text-lg font-bold mb-4">Appearance</h3>
+                  <div className="flex items-center justify-between mb-6">
+                    <div className="text-sm">
+                      <div className="font-semibold">Theme</div>
+                      <div className="text-gray-400">Choose between Light and Dark</div>
+                    </div>
+                    <select
+                      value={theme}
+                      onChange={e => setTheme(e.target.value as 'light' | 'dark')}
+                      className="p-2 rounded border border-gray-600 bg-gray-700"
+                      aria-label="Theme selector"
+                    >
+                      <option value="light">Light</option>
+                      <option value="dark">Dark</option>
+                    </select>
+                  </div>
+                </div>
+                <div className="bg-gray-800 rounded-lg p-6">
                   <h3 className="text-lg font-bold mb-4">Data Management</h3>
                   <div className="space-y-4 flex flex-col md:flex-row md:space-y-0 md:space-x-4">
                     <button
@@ -1633,22 +1662,46 @@ const AstroObservationApp = () => {
         {/* Bottom Tab Bar for iPhone */}
         {isIphone && (
           <div className="ios-tabbar">
-            {[
-              { id: 'home', label: 'Home', icon: '🏠' },
-              { id: 'objects', label: 'Observations', icon: '🌟' },
-              { id: 'resources', label: 'Resource', icon: '📚' },
-              { id: 'calendar', label: 'Calendar', icon: '📅' },
-              { id: 'settings', label: 'Settings', icon: '⚙️' }
-            ].map(tab => (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
-                className={activeTab === tab.id ? 'active' : ''}
-              >
-                <span style={{ fontSize: 18, lineHeight: 1 }}>{tab.icon}</span>
-                <span>{tab.label}</span>
-              </button>
-            ))}
+            <button
+              onClick={() => { setActiveTab('home'); (navigator as any).vibrate?.(10); }}
+              className={activeTab === 'home' ? 'active' : ''}
+              aria-label="Home"
+            >
+              <Home size={20} />
+              <span>Home</span>
+            </button>
+            <button
+              onClick={() => { setActiveTab('objects'); (navigator as any).vibrate?.(10); }}
+              className={activeTab === 'objects' ? 'active' : ''}
+              aria-label="Observations"
+            >
+              <Star size={20} />
+              <span>Observations</span>
+            </button>
+            <button
+              onClick={() => { setActiveTab('resources'); (navigator as any).vibrate?.(10); }}
+              className={activeTab === 'resources' ? 'active' : ''}
+              aria-label="Resource"
+            >
+              <BookOpen size={20} />
+              <span>Resource</span>
+            </button>
+            <button
+              onClick={() => { setActiveTab('calendar'); (navigator as any).vibrate?.(10); }}
+              className={activeTab === 'calendar' ? 'active' : ''}
+              aria-label="Calendar"
+            >
+              <Calendar size={20} />
+              <span>Calendar</span>
+            </button>
+            <button
+              onClick={() => { setActiveTab('settings'); (navigator as any).vibrate?.(10); }}
+              className={activeTab === 'settings' ? 'active' : ''}
+              aria-label="Settings"
+            >
+              <Settings size={20} />
+              <span>Settings</span>
+            </button>
           </div>
         )}
 
