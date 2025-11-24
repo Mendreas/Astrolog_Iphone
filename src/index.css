@@ -206,6 +206,9 @@ body .fixed-translate-widget,
 }
 
 /* Light theme variants (more airy glass) */
+.theme-light {
+  background-color: #f9fafb !important; /* page background (gray-50) */
+}
 .theme-light.ios-device .bg-gray-800 {
   background-color: rgba(255,255,255,0.65) !important;
   color: #111827 !important; /* gray-900 */
@@ -222,18 +225,19 @@ body .fixed-translate-widget,
 }
 /* Light theme: ensure all cards/containers turn light */
 .theme-light .bg-gray-800 {
-  background-color: #f3f4f6 !important; /* gray-100 */
+  /* ~15% darker than page (#f9fafb -> ~#d3d4d5) */
+  background-color: #d3d4d5 !important;
   color: #111827 !important;
   border-color: rgba(0,0,0,0.1) !important;
 }
 .theme-light .bg-gray-700 {
-  background-color: #e5e7eb !important; /* gray-200 */
+  background-color: #d3d4d5 !important;
   color: #111827 !important;
   border-color: rgba(0,0,0,0.1) !important;
 }
 /* Tailwind arbitrary color class used in some panels */
 .theme-light .bg-\[\#181c23\] {
-  background-color: #f3f4f6 !important; /* gray-100 */
+  background-color: #d3d4d5 !important;
   color: #111827 !important;
   border: 1px solid rgba(0,0,0,0.1) !important;
 }
@@ -241,7 +245,7 @@ body .fixed-translate-widget,
 .theme-light input,
 .theme-light select,
 .theme-light textarea {
-  background-color: #f9fafb !important; /* gray-50 */
+  background-color: #f3f4f6 !important; /* slightly darker than page for inputs */
   color: #111827 !important;
   border-color: #d1d5db !important; /* gray-300 */
 }
@@ -290,7 +294,7 @@ body .fixed-translate-widget,
 
 /* Light theme tab bar */
 .theme-light .ios-tabbar {
-  background: rgba(243,244,246,0.85); /* gray-100 with glass */
+  background: rgba(211,212,213,0.9); /* ~15% darker than page with glass */
   border-top: 1px solid rgba(0,0,0,0.1);
 }
 .theme-light .ios-tabbar button {
