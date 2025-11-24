@@ -49,6 +49,22 @@ interface CelestialObject {
   altitude: number;
 }
 
+interface LocationSuggestion {
+  place_id: string | number;
+  display_name: string;
+  lat: string;
+  lon: string;
+}
+
+interface VisibleObjectNow {
+  name: string;
+  type: string;
+  displayType: string;
+  ra?: string;
+  dec?: string;
+  altitude?: number;
+}
+
 const fetchBortleClass = async (lat: number, lon: number): Promise<string> => {
   try {
     const url = `https://www.lightpollutionmap.info/QueryRaster/?ql=wa_2015&x=${lon}&y=${lat}&z=8`;
@@ -121,8 +137,8 @@ const AstroObservationApp = () => {
   const [moonInfo, setMoonInfo] = useState<{altitude: number, phase: number, illumination: number} | null>(null);
   const [visiblePlanets, setVisiblePlanets] = useState<CelestialObject[]>([]);
   const [visibleStars, setVisibleStars] = useState<CelestialObject[]>([]);
-  const [locationSuggestions, setLocationSuggestions] = useState<any[]>([]);
-  const [visibleObjectsNow, setVisibleObjectsNow] = useState<any[]>([]);
+  const [locationSuggestions, setLocationSuggestions] = useState<LocationSuggestion[]>([]);
+  const [visibleObjectsNow, setVisibleObjectsNow] = useState<VisibleObjectNow[]>([]);
   const [searchText, setSearchText] = useState("");
   const [events, setEvents] = useState<EventType[]>([]);
   const [eventsLoading, setEventsLoading] = useState(true);
@@ -255,8 +271,8 @@ const AstroObservationApp = () => {
     }
     if (editObservationId !== null) {
       // Edit mode
-      setObservations(obs =>
-        obs.map(o =>
+      setObservations((obs: Observation[]) =>
+        obs.map((o: Observation) =>
           o.id === editObservationId
             ? { ...o, ...formData }
             : o
@@ -389,11 +405,11 @@ const AstroObservationApp = () => {
     const file = e.target.files && e.target.files[0];
     if (file) {
       const reader = new FileReader();
-      reader.onload = (event) => {
+      reader.onload = (event: ProgressEvent<FileReader>) => {
         try {
           const imported = JSON.parse(event.target?.result as string);
           if (Array.isArray(imported)) {
-            setObservations(imported);
+            setObservations(imported as Observation[]);
           } else {
             alert('Invalid file format.');
           }
@@ -405,7 +421,7 @@ const AstroObservationApp = () => {
     }
   };
 
-  const filteredObservations = observations.filter((obs) => {
+  const filteredObservations = observations.filter((obs: Observation) => {
     const typeMatch = filterType === 'all' || obs.type === filterType;
     const favoriteMatch = !showFavorites || obs.favorite;
     return typeMatch && favoriteMatch;
@@ -423,7 +439,7 @@ const AstroObservationApp = () => {
   // When editing, pre-fill the form
   useEffect(() => {
     if (editObservationId !== null) {
-      const obs = observations.find(o => o.id === editObservationId);
+      const obs = observations.find((o: Observation) => o.id === editObservationId);
       if (obs) {
         setFormData({ ...obs });
         setShowAddForm(true);
@@ -626,7 +642,7 @@ const AstroObservationApp = () => {
   // Helper to parse AstroEvents.txt and events list.txt
   const parseEvents = useCallback(async (currentTime: Date) => {
     // Fetch both files
-    const [astroEventsText, eventsListText] = await Promise.all([
+    const [astroEventsText, eventsListText]: [string, string] = await Promise.all([
       fetch(`${process.env.PUBLIC_URL}/AstroEvents.txt`).then(r => r.text()),
       fetch(`${process.env.PUBLIC_URL}/events-list.txt`).then(r => r.text())
     ]);
@@ -714,7 +730,7 @@ const AstroObservationApp = () => {
   // Load and filter events
   useEffect(() => {
     setEventsLoading(true);
-    parseEvents(currentTime).then(allEvents => {
+    parseEvents(currentTime).then((allEvents: EventType[]) => {
       console.log("Total events parsed:", allEvents.length);
       // Filter by year logic
       const now = currentTime;
@@ -737,7 +753,7 @@ const AstroObservationApp = () => {
     });
   }, [currentTime, parseEvents]);
 
-  const filteredEvents = events.filter(event =>
+  const filteredEvents = events.filter((event: EventType) =>
     event.name.toLowerCase().includes(searchText.toLowerCase())
   );
 
@@ -762,7 +778,7 @@ const AstroObservationApp = () => {
       const widget = document.querySelector('.elfsight-app-eb167c9f-6a9a-40e5-b4dc-45e2558d4129');
       if (widget) {
         const spans = widget.querySelectorAll('span, div');
-        spans.forEach(el => {
+        spans.forEach((el: Element) => {
           if (el.textContent && el.textContent.includes('Free Website Translator Widget')) {
             (el as HTMLElement).style.display = 'none';
           }
@@ -812,7 +828,7 @@ const AstroObservationApp = () => {
     <div style={{ position: 'relative' }}>
       {/* Widget de tradução fixo no topo direito */}
       <div className="fixed-translate-widget" style={{ position: 'fixed', top: 16, right: 24, zIndex: 10010, background: 'transparent' }}>
-        <div className="elfsight-app-eb167c9f-6a9a-40e5-b4dc-45e2558d4129" data-elfsight-app-lazy></div>
+        <div className="elfsight-app-eb167c9f-6a9a-40e5-b4dc-45e2558d4129" data-elfsight-app-lazy={true}></div>
       </div>
       {redFilter && (
         <div className="red-filter-overlay" />
@@ -828,7 +844,7 @@ const AstroObservationApp = () => {
                 {isIphone && (
                   <div className="flex items-center space-x-3">
                     <button
-                      onClick={() => setRedFilter(r => !r)}
+                      onClick={() => setRedFilter((r: boolean) => !r)}
                       className={`w-10 h-10 flex items-center justify-center rounded-full transition-colors duration-200 ${redFilter ? 'red-filter-btn' : 'bg-blue-600 hover:bg-blue-700'}`}
                       title="Toggle red filter for night vision"
                       style={{ minWidth: 40, minHeight: 40 }}

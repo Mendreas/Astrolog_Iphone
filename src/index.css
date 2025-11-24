@@ -220,6 +220,41 @@ body .fixed-translate-widget,
   backdrop-filter: saturate(180%) blur(14px);
   -webkit-backdrop-filter: saturate(180%) blur(14px);
 }
+/* Light theme: ensure all cards/containers turn light */
+.theme-light .bg-gray-800 {
+  background-color: rgba(255,255,255,0.92) !important;
+  color: #111827 !important;
+  border-color: rgba(0,0,0,0.12) !important;
+}
+.theme-light .bg-gray-700 {
+  background-color: rgba(255,255,255,0.88) !important;
+  color: #111827 !important;
+  border-color: rgba(0,0,0,0.12) !important;
+}
+/* Tailwind arbitrary color class used in some panels */
+.theme-light .bg-\[\#181c23\] {
+  background-color: rgba(255,255,255,0.92) !important;
+  color: #111827 !important;
+  border: 1px solid rgba(0,0,0,0.12) !important;
+}
+/* Inputs/selects look light */
+.theme-light input,
+.theme-light select,
+.theme-light textarea {
+  background-color: #ffffff !important;
+  color: #111827 !important;
+  border-color: rgba(0,0,0,0.2) !important;
+}
+/* Fix common text utility colors for light theme readability */
+.theme-light .text-gray-300 { color: #374151 !important; } /* gray-700 */
+.theme-light .text-gray-400 { color: #4b5563 !important; } /* gray-600 */
+.theme-light .text-gray-500 { color: #6b7280 !important; } /* gray-500 */
+.theme-light .text-blue-400 { color: #2563eb !important; } /* blue-600 */
+/* Borders */
+.theme-light .border-gray-700,
+.theme-light .border-gray-600 {
+  border-color: rgba(0,0,0,0.12) !important;
+}
 
 /* Bottom tab bar respecting safe-area */
 .ios-tabbar {
