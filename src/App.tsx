@@ -60,8 +60,8 @@ interface VisibleObjectNow {
   name: string;
   type: string;
   displayType: string;
-  ra?: string;
-  dec?: string;
+  ra?: string | number;
+  dec?: string | number;
   altitude?: number;
 }
 
