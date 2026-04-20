@@ -770,7 +770,6 @@ const AstroObservationApp = () => {
                 { id: 'resources', label: 'Resources', icon: '📚' },
                 { id: 'links', label: 'Useful Links', icon: '🔗' },
                 { id: 'calendar', label: 'Calendar', icon: '📅' },
-                { id: 'solar', label: 'Solar System', icon: '🪐' },
                 { id: 'settings', label: 'Settings', icon: '⚙️' }
               ].map(tab => (
                 <button
@@ -1026,29 +1025,6 @@ const AstroObservationApp = () => {
                   ></iframe>
                   <div className="text-xs text-gray-400 mt-2">
                     Fonte: <a href="https://www.moongiant.com/phase/today/" target="_blank" rel="noopener noreferrer">MoonGiant.com</a>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {activeTab === 'solar' && (
-              <div className="space-y-6">
-                <h2 className="text-2xl font-bold mb-4 flex items-center">
-                  <span className="mr-2">🪐</span>
-                  Solar System
-                </h2>
-                <div className="bg-gray-800 rounded-lg p-6">
-                  <iframe
-                    src="https://www.solarsystemscope.com/iframe"
-                    width="100%"
-                    height="600"
-                    style={{ minWidth: "500px", minHeight: "400px", border: "2px solid #0f5c6e", borderRadius: "8px", backgroundColor: "transparent" }}
-                    title="Solar System Scope"
-                    frameBorder="0"
-                    allowFullScreen
-                  />
-                  <div className="text-xs text-gray-400 mt-2">
-                    Fonte: <a href="https://www.solarsystemscope.com" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-blue-300">Solar System Scope</a>
                   </div>
                 </div>
               </div>
