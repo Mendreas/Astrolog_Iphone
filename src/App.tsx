@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { MapPin, Plus, Star, Download, Upload, Save, X, Eye, Sun, Edit } from 'lucide-react';
+import { MapPin, Plus, Star, Download, Upload, Save, X, Eye, Sun, Edit, Home, BookOpen, Calendar, Settings } from 'lucide-react';
 import { Body, Observer, Equator, Horizon, MoonPhase } from "astronomy-engine";
 import EventList from "./components/EventList";
 import { EventType } from "./components/EventCard";
@@ -1424,10 +1424,57 @@ const AstroObservationApp = () => {
         )}
 
         {notification && (
-          <div className={`fixed bottom-16 right-4 px-4 py-2 rounded-lg shadow-lg text-white ${notification.type === 'error' ? 'bg-red-600' : 'bg-green-600'}`}>
+          <div className={`fixed right-4 px-4 py-2 rounded-lg shadow-lg text-white ${notification.type === 'error' ? 'bg-red-600' : 'bg-green-600'} ${isIphone ? 'bottom-20' : 'bottom-16'}`}>
             {notification.type === 'error' ? '⚠️' : '✅'} {notification.message}
           </div>
         )}
+
+        {/* iOS native bottom tab bar */}
+        {isIphone && (
+          <div className="ios-tabbar">
+            <button
+              onClick={() => { setActiveTab('home'); (navigator as any).vibrate?.(10); }}
+              className={activeTab === 'home' ? 'active' : ''}
+              aria-label="Home"
+            >
+              <Home size={20} />
+              <span>Home</span>
+            </button>
+            <button
+              onClick={() => { setActiveTab('objects'); (navigator as any).vibrate?.(10); }}
+              className={activeTab === 'objects' ? 'active' : ''}
+              aria-label="Observations"
+            >
+              <Star size={20} />
+              <span>Observations</span>
+            </button>
+            <button
+              onClick={() => { setActiveTab('resources'); (navigator as any).vibrate?.(10); }}
+              className={activeTab === 'resources' ? 'active' : ''}
+              aria-label="Resources"
+            >
+              <BookOpen size={20} />
+              <span>Resources</span>
+            </button>
+            <button
+              onClick={() => { setActiveTab('calendar'); (navigator as any).vibrate?.(10); }}
+              className={activeTab === 'calendar' ? 'active' : ''}
+              aria-label="Calendar"
+            >
+              <Calendar size={20} />
+              <span>Calendar</span>
+            </button>
+            <button
+              onClick={() => { setActiveTab('settings'); (navigator as any).vibrate?.(10); }}
+              className={activeTab === 'settings' ? 'active' : ''}
+              aria-label="Settings"
+            >
+              <Settings size={20} />
+              <span>Settings</span>
+            </button>
+          </div>
+        )}
+
       </div>
     </div>
   );
